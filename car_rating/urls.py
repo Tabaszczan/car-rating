@@ -1,9 +1,10 @@
-"""car_rating URL Configuration"""
+"""car_rating URL Configuration."""
+# Django
 from django.contrib import admin
-from django.urls import path, include
-
+from django.urls import include
+from django.urls import path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('carsAPI.urls'))
+    path('', include('carsAPI.urls')),
 ]

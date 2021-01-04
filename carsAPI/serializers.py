@@ -1,31 +1,32 @@
+"""Serializers carsAPI."""
+# 3rd-party
 from rest_framework import serializers
 
-from carsAPI.models import Cars, CarRate
+# Project
+from carsAPI.models import CarRate
+from carsAPI.models import Cars
 
 
 class CarSerializer(serializers.ModelSerializer):
-    # average_rate = serializers.SerializerMethodField('average_value')
-
-    # def average_value(self):
-    #     pass
+    """Serializer for Car."""
 
     def create(self, validated_data):
+        """Create method check if object in base already exist."""
         car, created = Cars.objects.get_or_create(**validated_data)
         if created:
             return car
         else:
-            error = {"message": "Car already exist in database!"}
+            error = {'message': 'Car already exist in database!'}
             raise serializers.ValidationError(error)
 
-    def update(self, instance, validated_data):
-        pass
-
-    class Meta:
+    class Meta:  # noqa: D106
         model = Cars
         fields = ['make_name', 'model_name', 'average_rate']
 
 
 class CarRateSerializer(serializers.ModelSerializer):
-    class Meta:
+    """Serializer for car rate."""
+
+    class Meta:  # noqa: D106
         model = CarRate
         fields = ['car', 'rate']

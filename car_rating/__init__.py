@@ -1,0 +1,1 @@
+"""Init car_rating."""
