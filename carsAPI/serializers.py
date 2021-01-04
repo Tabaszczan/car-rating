@@ -3,9 +3,11 @@ from rest_framework import serializers
 from carsAPI.models import Cars, CarRate
 
 
-class CarSerializer(serializers.Serializer):
-    make_name = serializers.CharField(required=True, max_length=255)
-    model_name = serializers.CharField(required=True, max_length=255)
+class CarSerializer(serializers.ModelSerializer):
+    # average_rate = serializers.SerializerMethodField('average_value')
+
+    # def average_value(self):
+    #     pass
 
     def create(self, validated_data):
         car, created = Cars.objects.get_or_create(**validated_data)
@@ -17,6 +19,10 @@ class CarSerializer(serializers.Serializer):
 
     def update(self, instance, validated_data):
         pass
+
+    class Meta:
+        model = Cars
+        fields = ['make_name', 'model_name', 'average_rate']
 
 
 class CarRateSerializer(serializers.ModelSerializer):

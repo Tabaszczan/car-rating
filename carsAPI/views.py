@@ -1,6 +1,7 @@
+import string
+
 import requests
-from django.db.models import Avg
-from django.shortcuts import render
+from django.db.models import Avg, Count
 from rest_framework import viewsets, status
 # Create your views here.
 from rest_framework.response import Response
@@ -15,18 +16,6 @@ class CarsList(generics.ListCreateAPIView):
     serializer_class = CarSerializer
     permission_classes = []
 
-    def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
-        rating = CarRate.objects.filter(car__in=queryset).aggregate(Avg('rate'))
-        print(rating)
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
-
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -39,7 +28,10 @@ class CarsList(generics.ListCreateAPIView):
             if r.status_code == 200:
                 data = r.json()['Results']
                 for item in data:
-                    if item['Make_Name'] == make_name and item['Model_Name'] == model_name:
+                    if item['Make_Name'].upper() == make_name.upper() and \
+                            item['Model_Name'].upper() == model_name.upper():
+                        serializer.validated_data['make_name'] = item['Make_Name']
+                        serializer.validated_data['model_name'] = item['Model_Name']
                         self.perform_create(serializer)
                         headers = self.get_success_headers(serializer.data)
                         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
@@ -54,3 +46,10 @@ class CarRatePostAPIView(generics.ListCreateAPIView):
     queryset = CarRate.objects.all()
     serializer_class = CarRateSerializer
     permission_classes = []
+
+
+class PopularCarsList(generics.ListAPIView):
+    queryset = Cars.objects.annotate(num_carrate=Count('Car', distinct=True)).order_by('-num_carrate')
+    serializer_class = CarSerializer
+    permission_classes = []
+

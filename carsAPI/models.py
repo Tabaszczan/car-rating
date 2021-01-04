@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Avg, Count
 
 
 class Cars(models.Model):
@@ -7,6 +8,11 @@ class Cars(models.Model):
 
     def __str__(self):
         return f'{self.make_name} {self.model_name}'
+
+    @property
+    def average_rate(self):
+        ratings = CarRate.objects.filter(car=self).aggregate(Avg('rate'))
+        return round(ratings['rate__avg'], 2) if ratings['rate__avg'] else 'No ratings'
 
     class Meta:
         verbose_name = 'Car'
