@@ -1,18 +1,25 @@
+"""Test serializers cars API."""
+# Standard Library
 import json
 
+# Django
 from django.test import TestCase
 from django.urls import reverse
+
+# 3rd-party
 from rest_framework import status
 from rest_framework.test import APIRequestFactory
 
+# Project
 from carsAPI.models import Cars
 from carsAPI.serializers import CarSerializer
 from carsAPI.tests.factories import CarsFactory
 
 
 class TestCarSerializer(TestCase):
+    """Test for Car serializer."""
 
-    def setUp(self):
+    def setUp(self):  # noqa: D102
         self.factory = APIRequestFactory()
         self.car = CarsFactory()
         self.serializer = CarSerializer(instance=self.car)
@@ -23,11 +30,12 @@ class TestCarSerializer(TestCase):
         ]
 
     def test_contains_expected_fields(self):
+        """Test serializer data fields."""
         data = self.serializer.data
-
         self.assertCountEqual(data.keys(), self.set_fields)
 
     def test_get_objects(self):
+        """Test GET request status and data."""
         CarsFactory()
         CarsFactory()
         CarsFactory()
@@ -39,6 +47,7 @@ class TestCarSerializer(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_create_object_invalid(self):
+        """Test invalid POST Car."""
         car = {
             'make_name': 'No',
             'model_name': 'Name',
@@ -51,6 +60,7 @@ class TestCarSerializer(TestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_create_object_valid(self):
+        """Test valid POST Car."""
         car = {
             'make_name': 'honda',
             'model_name': 'civic',
@@ -63,6 +73,7 @@ class TestCarSerializer(TestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_create_object_already_exist(self):
+        """Test POST when object already exist."""
         car = {
             'make_name': 'honda',
             'model_name': 'civic',
@@ -79,6 +90,3 @@ class TestCarSerializer(TestCase):
             content_type='application/json',
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-
-
-

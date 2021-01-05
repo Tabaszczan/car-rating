@@ -1,15 +1,13 @@
-# Standard Library
-import random
-
+"""Factories cars API."""
 # 3rd-party
-from factory import LazyAttribute
 from factory import SubFactory
 from factory.django import DjangoModelFactory
 from factory.faker import Faker
 from factory.fuzzy import FuzzyChoice
-from factory.fuzzy import FuzzyDecimal
 
-from carsAPI.models import Cars, CarRate
+# Project
+from carsAPI.models import CarRate
+from carsAPI.models import Cars
 
 
 class CarsFactory(DjangoModelFactory):  # noqa: D101
