@@ -14,7 +14,7 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -81,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'car_rating',
         'USER': 'postgres',
-        'PASSWORD': 'asdf',
+        'PASSWORD': 'postgres',
         'HOST': 'db',
         'PORT': 5432,
     },
@@ -136,4 +136,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'public/uploads/')
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = False
+SECURE_SSL_REDIRECT = True
+
+try:
+    # Project
+    from car_rating.local_settings import *  # noqa: F403, F401
+except ImportError:
+    pass
