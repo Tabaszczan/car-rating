@@ -3,7 +3,7 @@ build:
     web: Dockerfile
 run:
   web: gunicorn car_rating.wsgi:application --bind 0.0.0.0:$PORT
-relase:
+release:
   image: web
   command:
     - python mamage.py collectstatic --noinput
