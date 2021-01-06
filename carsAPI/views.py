@@ -6,13 +6,25 @@ from django.db.models import Count
 import requests
 from rest_framework import generics
 from rest_framework import status
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.reverse import reverse
 
-# Project
-from carsAPI.models import CarRate
-from carsAPI.models import Cars
-from carsAPI.serializers import CarRateSerializer
-from carsAPI.serializers import CarSerializer
+# Local
+from .models import CarRate
+from .models import Cars
+from .serializers import CarRateSerializer
+from .serializers import CarSerializer
+
+
+@api_view(['GET'])
+def api_root(request, format=None):
+    """View for links to endpoints."""
+    return Response({
+        'cars': reverse('cars_list', request=request, format=format),
+        'rates': reverse('rate_post', request=request, format=format),
+        'popular': reverse('popular_cars_list', request=request, format=format),
+    })
 
 
 class CarsList(generics.ListCreateAPIView):

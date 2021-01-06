@@ -2,9 +2,9 @@
 # 3rd-party
 from rest_framework import serializers
 
-# Project
-from carsAPI.models import CarRate
-from carsAPI.models import Cars
+# Local
+from .models import CarRate
+from .models import Cars
 
 
 class CarSerializer(serializers.ModelSerializer):

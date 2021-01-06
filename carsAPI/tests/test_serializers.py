@@ -10,10 +10,10 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIRequestFactory
 
-# Project
-from carsAPI.models import Cars
-from carsAPI.serializers import CarSerializer
-from carsAPI.tests.factories import CarsFactory
+# Local
+from ..models import Cars
+from ..serializers import CarSerializer
+from .factories import CarsFactory
 
 
 class TestCarSerializer(TestCase):

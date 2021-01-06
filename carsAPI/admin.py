@@ -2,9 +2,9 @@
 # Django
 from django.contrib import admin
 
-# Project
-from carsAPI.models import CarRate
-from carsAPI.models import Cars
+# Local
+from .models import CarRate
+from .models import Cars
 
 
 @admin.register(Cars)

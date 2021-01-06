@@ -1,6 +1,6 @@
 """Test settings."""
 
-# 3rd-party
-from project.settings import *  # noqa
+# Project
+from car_rating.settings import *  # noqa
 
 # Override any settings required for tests here

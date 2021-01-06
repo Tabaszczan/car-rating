@@ -5,9 +5,9 @@ from factory.django import DjangoModelFactory
 from factory.faker import Faker
 from factory.fuzzy import FuzzyChoice
 
-# Project
-from carsAPI.models import CarRate
-from carsAPI.models import Cars
+# Local
+from ..models import CarRate
+from ..models import Cars
 
 
 class CarsFactory(DjangoModelFactory):  # noqa: D101
