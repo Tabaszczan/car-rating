@@ -2,9 +2,9 @@
 # Django
 from django.test import TestCase
 
-# Project
-from carsAPI.tests.factories import CarRateFactory
-from carsAPI.tests.factories import CarsFactory
+# Local
+from .factories import CarRateFactory
+from .factories import CarsFactory
 
 
 class TestCars(TestCase):

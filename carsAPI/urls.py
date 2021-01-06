@@ -2,11 +2,15 @@
 # Django
 from django.urls import path
 
-# Project
-from carsAPI import views
+# Local
+from .views import CarRatePostAPIView
+from .views import CarsList
+from .views import PopularCarsList
+from .views import api_root
 
 urlpatterns = [
-    path('cars/', views.CarsList.as_view(), name='cars_list'),
-    path('rate/', views.CarRatePostAPIView.as_view(), name='rate_post'),
-    path('popular/', views.PopularCarsList.as_view(), name='popular_cars_list'),
+    path('', api_root),
+    path('cars/', CarsList.as_view(), name='cars_list'),
+    path('rate/', CarRatePostAPIView.as_view(), name='rate_post'),
+    path('popular/', PopularCarsList.as_view(), name='popular_cars_list'),
 ]
