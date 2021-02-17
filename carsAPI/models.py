@@ -2,6 +2,7 @@
 # Django
 from django.db import models
 from django.db.models import Avg
+from django.db.models import Count
 
 
 class Cars(models.Model):
@@ -18,6 +19,14 @@ class Cars(models.Model):
         """Property shows average rate for cars, no ratings if there is no rates."""
         ratings = CarRate.objects.filter(car=self).aggregate(Avg('rate'))
         return round(ratings['rate__avg'], 2) if ratings['rate__avg'] else 'No ratings'
+
+    @property
+    def rate_count(self):
+        """Property shows number of rates."""
+        count = Cars.objects.annotate(
+            num_carrate=Count('Car', distinct=True),
+        ).order_by('-num_carrate').get(id=self.id)
+        return count.num_carrate
 
     class Meta:  # noqa: D106
         verbose_name = 'Car'

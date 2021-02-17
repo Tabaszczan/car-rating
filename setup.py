@@ -1,5 +1,5 @@
 """Project setup."""
-#!/usr/bin/env python
+# !/usr/bin/env python
 # 3rd-party
 from setuptools import find_packages
 from setuptools import setup

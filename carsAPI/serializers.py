@@ -21,7 +21,7 @@ class CarSerializer(serializers.ModelSerializer):
 
     class Meta:  # noqa: D106
         model = Cars
-        fields = ['make_name', 'model_name', 'average_rate']
+        fields = ['make_name', 'model_name', 'average_rate', 'rate_count']
 
 
 class CarRateSerializer(serializers.ModelSerializer):
